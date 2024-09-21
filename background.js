@@ -1,4 +1,4 @@
-const timeoutDuration = 600000; // Set the default to 10 minutes (600,000 ms)
+let timeoutDuration = 600000; // Set the default to 10 minutes (600,000 ms)
 let activeTabs = {};
 
 // Function to close inactive tabs
@@ -33,3 +33,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // Periodically check for inactive tabs
 setInterval(checkInactiveTabs, 60000); // Every minute
+
+chrome.storage.sync.get('timeoutDuration', function(data) {
+  timeoutDuration = data.timeoutDuration || 600000; // Default to 10 minutes
+});
+
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+  if (changes.timeoutDuration) {
+    timeoutDuration = changes.timeoutDuration.newValue;
+  }
+});

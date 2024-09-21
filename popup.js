@@ -1,11 +1,16 @@
-document.getElementById('save').addEventListener('click', function() {
-  const timeoutValue = document.getElementById('timeout').value;
-  const timeoutInMs = parseInt(timeoutValue) * 60000; // Convert to milliseconds
-  
-  chrome.storage.sync.set({ timeoutDuration: timeoutInMs }, function() {
-    alert('Timeout duration saved!');
-  });
-});
+document
+  .getElementById('save')
+  .addEventListener(
+    'click',
+    function() {
+      const timeoutValue = document.getElementById('timeout').value;
+      const timeoutInMs = parseInt(timeoutValue) * 60000; // Convert to milliseconds
+      
+      chrome.storage.sync.set({ timeoutDuration: timeoutInMs }, function() {
+        alert('Timeout duration saved!');
+      });
+    }
+  );
 
 // Load previously saved timeout
 chrome.storage.sync.get('timeoutDuration', function(data) {
