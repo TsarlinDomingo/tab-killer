@@ -8,10 +8,12 @@ function isTabWhitelisted(url) {
 
 // Function to close inactive tabs
 function checkInactiveTabs() {
+  console.log('Checking inactive tabs');
   const currentTime = Date.now();
 
   chrome.tabs.query({}, function(tabs) {
     tabs.forEach(tab => {
+      console.log('tab: ', tab);
       if (!activeTabs[tab.id]) {
         activeTabs[tab.id] = currentTime; // Initialize if not already
       }
@@ -78,3 +80,6 @@ function removeURLFromWhitelist(url) {
   whitelistedURLs = whitelistedURLs.filter(item => item !== url);
   chrome.storage.sync.set({ whitelistedURLs });
 }
+
+console.log('timeoutDuration', timeoutDuration);
+console.log('whitelistedURLs: ', whitelistedURLs);
