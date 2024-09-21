@@ -1,4 +1,4 @@
-let timeoutDuration = 600000; // Set the default to 10 minutes (600,000 ms)
+let timeoutDuration = 1 * 60 * 1000; // Set the default to 10 minutes (600,000 ms)
 let activeTabs = {};
 
 // Function to close inactive tabs
@@ -41,5 +41,12 @@ chrome.storage.sync.get('timeoutDuration', function(data) {
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   if (changes.timeoutDuration) {
     timeoutDuration = changes.timeoutDuration.newValue;
+  }
+});
+
+// This will help keep the service worker alive for debugging
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message === 'keepAlive') {
+    sendResponse({ status: "Service worker is alive" });
   }
 });

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Tab Manager",
+  "name": "Tab Killer",
   "version": "1.0",
   "description": "Automatically closes inactive tabs after a set period.",
   "permissions": ["tabs", "background", "storage"],
