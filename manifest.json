@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Tab Killer",
   "version": "1.0",
-  "description": "Automatically closes inactive tabs after a set period.",
+  "description": "Automatically closes inactive tabs after a set period, with the option to whitelist certain sites.",
   "permissions": ["tabs", "background", "storage"],
   "background": {
     "service_worker": "background.js"

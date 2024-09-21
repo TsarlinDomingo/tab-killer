@@ -1,20 +1,27 @@
-let timeoutDuration = 1 * 60 * 1000; // Set the default to 10 minutes (600,000 ms)
+let timeoutDuration = 60 * 60 * 1000; // Set the default to 1 hour
 let activeTabs = {};
+let whitelistedURLs = [];
+
+function isTabWhitelisted(url) {
+  return whitelistedURLs.some(whitelistedURL => url.includes(whitelistedURL));
+}
 
 // Function to close inactive tabs
 function checkInactiveTabs() {
+  const currentTime = Date.now();
+
   chrome.tabs.query({}, function(tabs) {
-    const currentTime = Date.now();
-    
     tabs.forEach(tab => {
-      if (activeTabs[tab.id]) {
-        const inactiveTime = currentTime - activeTabs[tab.id];
-        if (inactiveTime > timeoutDuration) {
-          chrome.tabs.remove(tab.id);
-          delete activeTabs[tab.id]; // Remove from tracking
-        }
-      } else {
-        activeTabs[tab.id] = currentTime; // Initialize tracking if not already
+      if (!activeTabs[tab.id]) {
+        activeTabs[tab.id] = currentTime; // Initialize if not already
+      }
+
+      const inactiveTime = currentTime - activeTabs[tab.id];
+
+      // Check if tab's URL is whitelisted before closing
+      if (inactiveTime > timeoutDuration && !isTabWhitelisted(tab.url)) {
+        chrome.tabs.remove(tab.id);
+        delete activeTabs[tab.id];
       }
     });
   });
@@ -31,8 +38,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-// Periodically check for inactive tabs
-setInterval(checkInactiveTabs, 60000); // Every minute
+// Periodically check for inactive tabs every minute
+setInterval(checkInactiveTabs, 1 * 60 * 1000); 
 
 chrome.storage.sync.get('timeoutDuration', function(data) {
   timeoutDuration = data.timeoutDuration || 600000; // Default to 10 minutes
@@ -50,3 +57,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ status: "Service worker is alive" });
   }
 });
+
+// Load whitelisted URLs from Chrome storage
+chrome.storage.sync.get('whitelistedURLs', function(data) {
+  if (data.whitelistedURLs) {
+    whitelistedURLs = data.whitelistedURLs;
+  }
+});
+
+// Function to add a URL to the whitelist
+function addURLToWhitelist(url) {
+  if (!whitelistedURLs.includes(url)) {
+    whitelistedURLs.push(url);
+    chrome.storage.sync.set({ whitelistedURLs });
+  }
+}
+
+// Function to remove a URL from the whitelist
+function removeURLFromWhitelist(url) {
+  whitelistedURLs = whitelistedURLs.filter(item => item !== url);
+  chrome.storage.sync.set({ whitelistedURLs });
+}
