@@ -1,6 +1,6 @@
-# Tab Manager Extension
+# Tab Killer Extension
 
-**Tab Manager** is a Chrome extension that helps manage the number of open tabs by automatically closing inactive tabs after a set period. The extension allows users to whitelist specific websites, preventing them from being closed automatically.
+**Tab Killer** is a Chrome extension that helps manage the number of open tabs by automatically closing inactive tabs after a set period. The extension allows users to whitelist specific websites, preventing them from being closed automatically.
 
 ## Features
 
@@ -14,8 +14,8 @@ To install and test the extension locally, follow these steps:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/tab-manager.git
-   cd tab-manager
+   git clone https://github.com/yourusername/tab-killer.git
+   cd tab-killer
 
 2. Open Chrome and navigate to the Extensions page:
   - Enter chrome://extensions/ in the address bar or go to "Menu" > "More Tools" > "Extensions".
