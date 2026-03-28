@@ -150,7 +150,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Remove button
         const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
+        removeButton.className = 'remove-btn';
+        removeButton.innerHTML = '&#10005;'; // X symbol
+        removeButton.title = 'Remove rule';
         removeButton.addEventListener('click', function() {
           removeURLFromWhitelist(url);
         });

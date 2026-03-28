@@ -1,46 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
     <title>Tab Killer Settings</title>
+    <style>
+      :root {
+        --bg-color: #f7f9fc;
+        --card-bg: #ffffff;
+        --text-primary: #1a202c;
+        --text-secondary: #718096;
+        --accent-color: #4299e1;
+        --accent-hover: #3182ce;
+        --danger-color: #e53e3e;
+        --success-color: #48bb78;
+        --border-color: #e2e8f0;
+        --border-radius: 8px;
+        --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        font-family: var(--font-family);
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 20px;
+        width: 320px;
+        box-sizing: border-box;
+      }
+
+      h1 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      h2 {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        margin: 24px 0 12px 0;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 4px;
+      }
+
+      p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin: 0 0 8px 0;
+      }
+
+      /* Card layout for sections */
+      .section {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+
+      /* Inputs and Buttons */
+      input[type="number"],
+      input[type="text"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+        margin-bottom: 8px;
+        transition: border-color 0.2s;
+      }
+
+      input[type="number"]:focus,
+      input[type="text"]:focus {
+        outline: none;
+        border-color: var(--accent-color);
+      }
+
+      .input-group {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      
+      .input-group input {
+        margin-bottom: 0;
+      }
+
+      button {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      button:hover {
+        background-color: var(--accent-hover);
+      }
+
+      button.secondary {
+        background-color: #edf2f7;
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+      }
+      button.secondary:hover {
+        background-color: #e2e8f0;
+      }
+
+      /* Quick Add Section */
+      #quickAddBtn {
+        width: 100%;
+        margin-bottom: 12px;
+      }
+
+      #quickAddOptions {
+        background-color: #f8fafc;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 8px;
+        margin-bottom: 12px;
+      }
+
+      #quickAddOptions p {
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .rule-option-btn {
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        color: var(--text-primary);
+        border: 1px solid transparent;
+        padding: 6px 8px;
+        margin-bottom: 4px;
+        font-size: 12px;
+        font-family: monospace;
+        border-radius: 4px;
+        justify-content: flex-start;
+      }
+
+      .rule-option-btn:hover {
+        background-color: #edf2f7;
+      }
+
+      /* Whitelist display */
+      ul#whitelist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 150px;
+        overflow-y: auto;
+      }
+
+      ul#whitelist li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 13px;
+        font-family: monospace;
+      }
+
+      ul#whitelist li:last-child {
+        border-bottom: none;
+      }
+
+      .remove-btn {
+        background-color: transparent;
+        color: var(--text-secondary);
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+
+      .remove-btn:hover {
+        background-color: #fff5f5;
+        color: var(--danger-color);
+      }
+
+      /* Header Status Toggle */
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--success-color);
+        display: inline-block;
+      }
+
+      .status-indicator.paused {
+        background-color: var(--danger-color);
+      }
+
+      #togglePause {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+      
+      .helper-text {
+        font-size: 11px;
+        color: #a0aec0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Tab Killer</h1>
-    
-    <div style="margin-bottom: 15px;">
-      <button id="togglePause" style="padding: 8px 12px; font-weight: bold; cursor: pointer;">
-        Pause Auto-Close
-      </button>
-      <span id="statusText" style="margin-left: 10px; font-size: 14px; font-weight: bold; color: green;">Active</span>
-    </div>
+    <h1>
+      Tab Killer
+      <div class="header-controls">
+        <span id="statusIndicator" class="status-indicator"></span>
+        <button id="togglePause" class="secondary">Pause</button>
+      </div>
+    </h1>
 
-    <p>Set the tab inactivity timeout:</p>
-    <input id="timeout" type="number" min="1" placeholder="Minutes">
-    <button id="save">Save</button>
-
-    <h2>Manage Whitelist</h2>
-
-    <div style="margin-bottom: 10px;">
-      <button id="quickAddBtn" style="padding: 6px 10px; cursor: pointer;">
-        + Whitelist Current Site
-      </button>
-      
-      <div id="quickAddOptions" style="display: none; margin-top: 8px; border: 1px solid #ccc; padding: 10px; border-radius: 4px; background-color: #f9f9f9;">
-        <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: bold;">Select rule type:</p>
-        <button id="optExact" style="display: block; width: 100%; margin-bottom: 5px; text-align: left; cursor: pointer;"></button>
-        <button id="optRoot" style="display: block; width: 100%; margin-bottom: 5px; text-align: left; cursor: pointer;"></button>
-        <button id="optWildcard" style="display: block; width: 100%; text-align: left; cursor: pointer;"></button>
+    <div class="section">
+      <h2>Timeout Settings</h2>
+      <p>Close inactive tabs after (minutes):</p>
+      <div class="input-group">
+        <input id="timeout" type="number" min="1" placeholder="e.g. 10">
+        <button id="save">Save</button>
       </div>
     </div>
 
-    <input id="urlInput" type="text" placeholder="Enter URL or domain to whitelist" style="width: 200px;">
-    <button id="addURL">Add</button>
-    <p style="font-size: 12px; color: #555;">
-      Examples: <code>youtube.com</code>, <code>*.google.com</code>, or <code>https://github.com/my-repo</code>
-    </p>
+    <div class="section">
+      <h2>Whitelist</h2>
+      
+      <button id="quickAddBtn" class="secondary">+ Whitelist Current Tab</button>
+      
+      <div id="quickAddOptions" style="display: none;">
+        <p>Select rule type:</p>
+        <button id="optExact" class="rule-option-btn"></button>
+        <button id="optRoot" class="rule-option-btn"></button>
+        <button id="optWildcard" class="rule-option-btn"></button>
+      </div>
 
-    <h3>Whitelisted URLs:</h3>
-    <ul id="whitelist"></ul>
+      <div class="input-group">
+        <input id="urlInput" type="text" placeholder="Domain or URL">
+        <button id="addURL">Add</button>
+      </div>
+      <p class="helper-text">E.g., <code>youtube.com</code> or <code>*.google.com</code></p>
 
+      <h2 style="margin-top: 16px; margin-bottom: 8px; font-size: 12px;">Protected Sites</h2>
+      <ul id="whitelist"></ul>
+    </div>
     
     <script src="popup.js"></script>
   </body>
