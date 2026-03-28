@@ -1,7 +1,31 @@
 // Function to check if a URL is whitelisted
-function isTabWhitelisted(url, whitelistedURLs) {
-  if (!url) return false;
-  return whitelistedURLs.some(whitelistedURL => url.includes(whitelistedURL));
+function isTabWhitelisted(tabUrl, whitelistedURLs) {
+  if (!tabUrl) return false;
+  
+  let tabUrlObj;
+  try {
+    tabUrlObj = new URL(tabUrl);
+  } catch (e) {
+    // If it's not a valid URL (e.g. chrome:// extensions page), fallback to simple include
+    return whitelistedURLs.some(rule => tabUrl.includes(rule));
+  }
+
+  return whitelistedURLs.some(rule => {
+    // 1. Check for wildcard domain matching (e.g. *.google.com)
+    if (rule.startsWith('*.')) {
+      const baseDomain = rule.slice(2); // Remove '*.'
+      return tabUrlObj.hostname === baseDomain || tabUrlObj.hostname.endsWith(`.${baseDomain}`);
+    } 
+    
+    // 2. Check for exact domain matching (e.g. youtube.com)
+    // If the rule has no slashes, assume it's a domain
+    if (!rule.includes('/')) {
+      return tabUrlObj.hostname === rule;
+    }
+
+    // 3. Fallback: Exact path / full string match (e.g. https://github.com/repo)
+    return tabUrl.startsWith(rule);
+  });
 }
 
 // Function to close inactive tabs

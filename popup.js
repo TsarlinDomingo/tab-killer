@@ -48,7 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Add a URL to the whitelist
   addURLButton.addEventListener('click', function() {
-    const url = urlInput.value.trim();
+    let url = urlInput.value.trim().toLowerCase();
+    
+    // Remove default protocol if user just typed the domain with it but meant the domain rule
+    if ((url.startsWith('http://') || url.startsWith('https://')) && !url.substring(url.indexOf('//') + 2).includes('/')) {
+        url = url.substring(url.indexOf('//') + 2);
+    }
+
     if (url) {
       chrome.storage.sync.get('whitelistedURLs', function(data) {
         const whitelistedURLs = data.whitelistedURLs || [];
@@ -57,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
           chrome.storage.sync.set({ whitelistedURLs }, renderWhitelist);
         }
       });
+      urlInput.value = ''; // clear input after adding
     }
   });
 
