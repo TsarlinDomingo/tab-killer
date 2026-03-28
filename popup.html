@@ -5,6 +5,14 @@
   </head>
   <body>
     <h1>Tab Killer</h1>
+    
+    <div style="margin-bottom: 15px;">
+      <button id="togglePause" style="padding: 8px 12px; font-weight: bold; cursor: pointer;">
+        Pause Auto-Close
+      </button>
+      <span id="statusText" style="margin-left: 10px; font-size: 14px; font-weight: bold; color: green;">Active</span>
+    </div>
+
     <p>Set the tab inactivity timeout:</p>
     <input id="timeout" type="number" min="1" placeholder="Minutes">
     <button id="save">Save</button>
