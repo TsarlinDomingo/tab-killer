@@ -36,8 +36,13 @@ async function checkInactiveTabs() {
   try {
     // Fetch state from storage instead of global variables
     const localData = await chrome.storage.local.get(['activeTabs']);
-    const syncData = await chrome.storage.sync.get(['timeoutDuration', 'whitelistedURLs']);
+    const syncData = await chrome.storage.sync.get(['timeoutDuration', 'whitelistedURLs', 'isPaused']);
     
+    if (syncData.isPaused) {
+      console.log('Tab Killer is paused. Skipping check.');
+      return;
+    }
+
     let activeTabs = localData.activeTabs || {};
     let timeoutDuration = syncData.timeoutDuration || 600000; // Default: 10 mins
     let whitelistedURLs = syncData.whitelistedURLs || [];
