@@ -12,13 +12,43 @@ document
     }
   );
 
-// Load previously saved timeout
-chrome.storage.sync.get('timeoutDuration', function(data) {
-  const savedTimeout = data.timeoutDuration / 60000;
-  document.getElementById('timeout').value = savedTimeout || 10; // Default to 10 minutes if none set
+// Load previously saved timeout and pause state
+chrome.storage.sync.get(['timeoutDuration', 'isPaused'], function(data) {
+  const savedTimeout = data.timeoutDuration ? data.timeoutDuration / 60000 : 10;
+  document.getElementById('timeout').value = savedTimeout;
+  
+  if (data.isPaused) {
+    updatePauseUI(true);
+  }
 });
 
+function updatePauseUI(isPaused) {
+  const toggleBtn = document.getElementById('togglePause');
+  const statusTxt = document.getElementById('statusText');
+  
+  if (isPaused) {
+    toggleBtn.textContent = 'Resume Auto-Close';
+    statusTxt.textContent = 'Paused';
+    statusTxt.style.color = 'red';
+  } else {
+    toggleBtn.textContent = 'Pause Auto-Close';
+    statusTxt.textContent = 'Active';
+    statusTxt.style.color = 'green';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  const togglePauseBtn = document.getElementById('togglePause');
+  
+  togglePauseBtn.addEventListener('click', function() {
+    chrome.storage.sync.get('isPaused', function(data) {
+      const newPausedState = !data.isPaused;
+      chrome.storage.sync.set({ isPaused: newPausedState }, function() {
+        updatePauseUI(newPausedState);
+      });
+    });
+  });
+
   const urlInput = document.getElementById('urlInput');
   const addURLButton = document.getElementById('addURL');
   const whitelistContainer = document.getElementById('whitelist');
