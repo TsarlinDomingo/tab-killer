@@ -19,6 +19,19 @@
 
     <h2>Manage Whitelist</h2>
 
+    <div style="margin-bottom: 10px;">
+      <button id="quickAddBtn" style="padding: 6px 10px; cursor: pointer;">
+        + Whitelist Current Site
+      </button>
+      
+      <div id="quickAddOptions" style="display: none; margin-top: 8px; border: 1px solid #ccc; padding: 10px; border-radius: 4px; background-color: #f9f9f9;">
+        <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: bold;">Select rule type:</p>
+        <button id="optExact" style="display: block; width: 100%; margin-bottom: 5px; text-align: left; cursor: pointer;"></button>
+        <button id="optRoot" style="display: block; width: 100%; margin-bottom: 5px; text-align: left; cursor: pointer;"></button>
+        <button id="optWildcard" style="display: block; width: 100%; text-align: left; cursor: pointer;"></button>
+      </div>
+    </div>
+
     <input id="urlInput" type="text" placeholder="Enter URL or domain to whitelist" style="width: 200px;">
     <button id="addURL">Add</button>
     <p style="font-size: 12px; color: #555;">
