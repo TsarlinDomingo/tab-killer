@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Tab Killer Settings</title>
+    <style>
+      :root {
+        --bg-color: #f7f9fc;
+        --card-bg: #ffffff;
+        --text-primary: #1a202c;
+        --text-secondary: #718096;
+        --accent-color: #4299e1;
+        --accent-hover: #3182ce;
+        --danger-color: #e53e3e;
+        --success-color: #48bb78;
+        --border-color: #e2e8f0;
+        --border-radius: 8px;
+        --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        font-family: var(--font-family);
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 20px;
+        width: 320px;
+        box-sizing: border-box;
+      }
+
+      h1 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      h2 {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        margin: 24px 0 12px 0;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 4px;
+      }
+
+      p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin: 0 0 8px 0;
+      }
+
+      /* Card layout for sections */
+      .section {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+
+      /* Inputs and Buttons */
+      input[type="number"],
+      input[type="text"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+        margin-bottom: 8px;
+        transition: border-color 0.2s;
+      }
+
+      .input-group {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      
+      .input-group input {
+        margin-bottom: 0;
+      }
+
+      button {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      button.secondary {
+        background-color: #edf2f7;
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+      }
+
+      #quickAddBtn {
+        width: 100%;
+        margin-bottom: 12px;
+      }
+
+      /* Whitelist display */
+      ul#whitelist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 150px;
+        overflow-y: auto;
+      }
+
+      ul#whitelist li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 13px;
+        font-family: monospace;
+      }
+
+      ul#whitelist li:last-child {
+        border-bottom: none;
+      }
+
+      .remove-btn {
+        background-color: transparent;
+        color: var(--text-secondary);
+        padding: 4px 8px;
+        font-size: 12px;
+        border: none;
+      }
+
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--success-color);
+        display: inline-block;
+      }
+
+      #togglePause {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+      
+      .helper-text {
+        font-size: 11px;
+        color: #a0aec0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      Tab Killer
+      <div class="header-controls">
+        <span class="status-indicator"></span>
+        <button class="secondary">Pause</button>
+      </div>
+    </h1>
+
+    <div class="section">
+      <h2>Timeout Settings</h2>
+      <p>Close inactive tabs after (minutes):</p>
+      <div class="input-group">
+        <input type="number" value="10">
+        <button>Save</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Whitelist</h2>
+      
+      <button id="quickAddBtn" class="secondary">+ Whitelist Current Tab</button>
+
+      <div class="input-group">
+        <input type="text" placeholder="Domain or URL">
+        <button>Add</button>
+      </div>
+      <p class="helper-text">E.g., <code>youtube.com</code> or <code>*.google.com</code></p>
+
+      <h2 style="margin-top: 16px; margin-bottom: 8px; font-size: 12px;">Protected Sites</h2>
+      <ul id="whitelist">
+        <li>github.com <button class="remove-btn" title="Remove rule">&#10005;</button></li>
+        <li>*.youtube.com <button class="remove-btn" title="Remove rule">&#10005;</button></li>
+        <li>mail.google.com <button class="remove-btn" title="Remove rule">&#10005;</button></li>
+      </ul>
+    </div>
+  </body>
+</html>
